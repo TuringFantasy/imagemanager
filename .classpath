@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="impl/src/main/java"/>
+	<classpathentry kind="lib" path="api/image-manager-api-sources.jar"/>
+	<classpathentry kind="lib" path="api/image-manager-api.jar"/>
+	<classpathentry kind="lib" path="impl/src/main/lib/gson.jar"/>
+	<classpathentry kind="lib" path="impl/src/main/lib/image-manager-api.jar"/>
+	<classpathentry kind="lib" path="tools/eclipse/lib/javax.inject.jar"/>
+	<classpathentry kind="lib" path="tools/eclipse/lib/macaw-service-api.jar"/>
+	<classpathentry kind="lib" path="tools/eclipse/lib/macaw-service-client.jar"/>
+	<classpathentry kind="lib" path="tools/eclipse/lib/slf4j-api.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

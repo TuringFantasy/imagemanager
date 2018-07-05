@@ -1,0 +1,209 @@
+{
+    "service": {
+        "namespace": "io.zolontech.services",
+        "name": "image-manager",
+        "version": "1.0.0",
+        "description": "Image Manager Service",
+        "domain-entities": {
+            "image": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique ID of the image"
+                    },
+
+                    "user-code": {
+                        "type": "string",
+                        "description": "Unique ID of the user associated with the image"
+                    },
+
+                    "description": {
+                        "type": "string",
+                        "description": "Description about the management features"
+                    },
+
+                    "url": {
+                        "type": "string",
+                        "description": "URL of the image"
+                    },
+
+                    "createdAt": {
+                        "type": "int64",
+                        "description": "The time in UTC milliseconds at which the image was created"
+                    }
+                }
+            },
+
+            "user": {
+                "properties": {
+                    "user-code": {
+                        "type": "string",
+                        "description": "Unique ID of the user"
+                    },
+
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the user"
+                    },
+
+                    "address": {
+                        "type": "string",
+                        "description": "Address of the user"
+                    },
+
+                    "dob": {
+                        "type": "int64",
+                        "description": "Date of Birth of the user"
+                    },
+
+                    "email-id": {
+                        "type": "string",
+                        "description": "Email ID of the user"
+                    },
+
+                    "createdAt": {
+                        "type": "int64",
+                        "description": "The time in UTC milliseconds at which the image was created"
+                    }
+                }
+            },
+
+            "approval": {
+                "properties": {
+                    "user": {
+                        "type": "user",
+                        "description": "User"
+                    },
+
+                    "image-id": {
+                        "type": "string",
+                        "description": "Unique ID of the image"
+                    },
+
+                    "image-url": {
+                        "type": "string",
+                        "description": "The URL of the image"
+                    },
+
+                    "status": {
+                        "type": "approval-status",
+                        "description": "Approval status"
+                    },
+
+                    "reason": {
+                        "type": "string",
+                        "description": "Reason for approval/rejection"
+                    },
+
+                    "updatedAt": {
+                        "type": "int64",
+                        "description": "Time at which approved/rejected"
+                    }
+
+                }
+            }
+
+        },
+        "enumerations": {
+            "approval-status": {
+                "allowed-values": [
+                    "pending",
+                    "approved",
+                    "denied",
+                    "all"
+                ]
+            }
+        },
+            "apis" : [
+                {
+                    "name" : "uploadImage",
+                    "description" : "Upload an image",
+                    "inputs": [
+                        {
+                            "name": "user-code",
+                            "type": "string"
+                        },
+
+                        {
+                            "name": "image-url",
+                            "type": "string"
+                        }
+                    ],
+                    "output" : {
+                        "type" : "string"
+                    }
+                },
+                {
+                    "name" : "addUser",
+                    "description" : "Add user",
+                    "inputs": [
+                        {
+                            "name": "user",
+                            "type": "user"
+                        }
+                    ],
+                    "output" : {
+                        "type" : "string"
+                    }
+                },
+                {
+                    "name" : "updateApproval",
+                    "description" : "Update approval",
+                    "inputs": [
+                        {
+                            "name": "approval",
+                            "type": "approval"
+                        }
+                    ],
+                    "output" : {
+                        "type" : "approval"
+                    }
+                },
+                {
+                    "name" : "getApprovals",
+                    "description" : "Returns the list of approvals",
+                    "inputs": [
+                        {
+                            "name": "status",
+                            "type": "approval-status"
+                        }
+                    ],
+                    "output" : {
+                        "type" : "list",
+                        "item" : "approval"
+                    }
+                },
+                {
+                    "name" : "getImages",
+                    "description" : "Returns the list of images matching a code",
+                    "inputs": [
+                        {
+                            "name": "user-code",
+                            "type": "string"
+                        }
+                    ],
+                    "output" : {
+                        "type" : "list",
+                        "item" : "approval"
+                    }
+                },
+                {
+                    "name" : "getUsers",
+                    "description" : "Returns the list of users",
+                    "output" : {
+                        "type" : "list",
+                        "item" : "user"
+                    }
+                }
+            ],
+            "options" : {
+                "code-gen" : {
+                    "java" : {
+                        "package-name" : "io.zolontech.imagemanager"
+                    }
+                }
+
+            }
+
+    }
+}
