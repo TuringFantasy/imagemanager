@@ -10,10 +10,15 @@ public class StartUpListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-    	ServletContext sc = sce.getServletContext();
-    	InputStream inStream = sc.getResourceAsStream("/WEB-INF/ui-backend.properties");
+    	//ServletContext sc = sce.getServletContext();
+    	//InputStream inStream = sc.getResourceAsStream("/WEB-INF/ui-backend.properties");
         //load properties at start up
-        ServiceConfig.getInstance().loadMacawProperties(inStream);
+        try {
+			ServiceConfig.getInstance().loadMacawProperties();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
     @Override
