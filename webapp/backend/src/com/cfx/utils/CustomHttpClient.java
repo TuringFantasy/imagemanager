@@ -74,8 +74,8 @@ public class CustomHttpClient {
     	//HARD CODE
         //String host = "10.95.122.144";
         String host = ServiceConfig.getInstance().getProperty("api.gateway.host", "localhost");
-        String port = "443";
-        String protocol = "https";
+        String port = ServiceConfig.getInstance().getProperty("api.gateway.port", "8080");
+        String protocol = ServiceConfig.getInstance().getProperty("api.gateway.protocol", "http");
 
         return prepareCustomHttpClient(host, port, protocol, configProperties);
     }
