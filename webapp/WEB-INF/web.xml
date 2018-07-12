@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app
+  xmlns="http://java.sun.com/xml/ns/j2ee"
+  xmlns:j2ee="http://java.sun.com/xml/ns/j2ee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  version="2.4"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee  http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+
+  <!-- Startup Context Listener for initializing the application -->
+  <listener>
+    <listener-class>com.cfx.utils.StartUpListener</listener-class>
+  </listener>
+
+  <!-- Jersey servlet Container -->
+  <servlet>
+    <servlet-name>jersey</servlet-name>
+    <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+    <init-param>
+      <param-name>com.sun.jersey.config.property.packages</param-name>
+      <param-value>com.cfx.restapi</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>jersey</servlet-name>
+    <url-pattern>/app/*</url-pattern>
+  </servlet-mapping>
+
+  <!-- Filters -->
+
+  <session-config>
+    <session-timeout>30</session-timeout>
+  </session-config>
+
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+  </welcome-file-list>
+
+<!-- 
+  <error-page>
+    <error-code>500</error-code>
+    <location>/cfx-error.html</location>
+  </error-page>
+  <error-page>
+    <exception-type>java.lang.Throwable</exception-type>
+    <location>/cfx-error.html</location>
+  </error-page>
+ -->
+</web-app>

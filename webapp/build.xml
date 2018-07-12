@@ -1,0 +1,54 @@
+<project name="image-manager-webapp" basedir="." default="war">
+
+    <property name="dist.name" value="${ant.project.name}" />
+    <property name="dist.dir" value="${basedir}/dist" />
+    <property name="target.dir" value="${basedir}/target" />
+	<property name="target.classes.dir" value="${target.dir}/classes" />
+    <property name="src.main.java.dir" value="${basedir}/backend/src" />
+    <property name="WEB-INF" value="${basedir}/WEB-INF" />
+    
+    <path id="compile.classpath">
+        <fileset dir="${basedir}/backend/lib">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
+
+    <target name="clean">
+		<delete dir="${dist.dir}" />
+        <delete dir="${target.dir}" />
+        <delete dir="${target.classes.dir}" />
+	</target>
+
+	<target name="init">
+        <mkdir dir="${target.dir}" />
+		<mkdir dir="${dist.dir}" />
+	</target>
+    
+    <target name="compile" depends="init" description="Compiles the main source">
+		<mkdir dir="${target.classes.dir}" />
+		<javac memoryMaximumSize="256m" srcdir="${src.main.java.dir}" destdir="${target.classes.dir}" fork="yes" source="1.8" debug="true" debuglevel="lines,vars,source">
+			<classpath refid="compile.classpath" />
+		</javac>
+	</target>
+    
+    <target name="jar" depends="compile" description="Generates ${dist.name} jar">
+		<jar file="${dist.dir}/${dist.name}.jar">
+			<fileset dir="${target.classes.dir}" />
+		</jar>
+	</target>
+
+    <target name="war" depends="clean, init, jar" description="Creates a packaged distribution of the ${dist.name}">
+		<war destfile="${dist.dir}/${dist.name}.war" preserve0permissions="true" webxml="${WEB-INF}/web.xml">
+
+            <zipfileset dir="${WEB-INF}/classes/" prefix="WEB-INF/classes" />
+            <zipfileset file="${dist.dir}/${dist.name}.jar" prefix="WEB-INF/lib" />
+            <zipfileset file="${WEB-INF}/ui-backend.properties" prefix="WEB-INF" />
+            <lib dir="${basedir}/backend/lib">
+				<exclude name="**/*.zip" />
+				<exclude name="**/javax.ws.rs-api-*" />
+			</lib>
+            
+		</war>
+	</target>
+
+</project>
