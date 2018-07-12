@@ -12,10 +12,12 @@
     <property name="src.test.java.dir" value="${src.root.dir}/test/java"/>
     <property name="src.test.resources.dir" value="${src.root.dir}/test/resources"/>
     <property name="src.test.lib.dir" value="${src.root.dir}/test/lib"/>
+    <property name="src.test.python.dir" value="${src.root.dir}/test/python"/>
 
     <property name="target.dir" value="${basedir}/target"/>
     <property name="target.classes.dir" value="${target.dir}/classes"/>
     <property name="target.test.classes.dir" value="${target.dir}/test-classes"/>
+    <property name="target.test.python.dir" value="${target.dir}/python-tests"/>
 
     <property name="dist.dir" value="${basedir}/dist"/>
 
@@ -91,6 +93,10 @@
         <available file="${src.test.java.dir}" property="tests.exist"/>
     </target>
 
+    <target name="check-python-tests-exist">
+        <available file="${src.test.python.dir}" property="pythontests.exist"/>
+    </target>
+
     <target name="test-compile" depends="compile, check-tests-exist" description="Compiles the test source" if="${tests.exist}">
         <mkdir dir="${target.test.classes.dir}"/>
         <javac memoryMaximumSize="256m" srcdir="${src.test.java.dir}" destdir="${target.test.classes.dir}" fork="yes" source="1.8" debug="true" debuglevel="lines,vars,source">
@@ -98,6 +104,13 @@
         </javac>
         <!-- Copy the test resources to the target dir-->
         <antcall target="copy-test-resources"/>
+    </target>
+
+    <target name="copy-python-test-resources" depends="check-python-tests-exist" if="${pythontests.exist}">
+        <mkdir dir="${target.test.python.dir}"/>
+        <copy todir="${target.test.python.dir}" failonerror="false">
+            <fileset dir="${src.test.python.dir}"/>
+        </copy>
     </target>
 
     <target name="copy-test-resources" depends="check-tests-exist" if="${tests.exist}">
@@ -125,6 +138,14 @@
             </classpath>
             <classfileset dir="${target.test.classes.dir}" includes="**/*.class"/>
         </testng>
+    </target>
+
+    <target name="python-test" depends="check-python-tests-exist, copy-python-test-resources" description="Runs the python unit tests">
+        <property name="test.reports.dir" value="${target.dir}/reports"/>
+        <exec executable="/bin/sh">
+            <arg value="-c" />
+            <arg value='PYTHONPATH="${target.dir}/python-tests" py.test --junit-xml="${test.reports.dir}/TEST-Python.xml" -s "${target.dir}/python-tests"' />
+        </exec>   
     </target>
 
     <!-- Runs tests prior to creating a dist -->
