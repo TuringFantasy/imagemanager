@@ -27,6 +27,11 @@
                         "description": "URL of the image"
                     },
 
+                    "content": {
+                        "type": "string",
+                        "description": "Byte 64 encoded representation of the image"
+                    },
+
                     "createdAt": {
                         "type": "int64",
                         "description": "The time in UTC milliseconds at which the image was created"
@@ -85,6 +90,11 @@
                         "description": "The URL of the image"
                     },
 
+                    "image-content": {
+                        "type": "string",
+                        "description": "Byte 64 encoded representation of the image"
+                    },
+
                     "status": {
                         "type": "approval-status",
                         "description": "Approval status"
@@ -123,9 +133,12 @@
                             "name": "user-code",
                             "type": "string"
                         },
-
                         {
                             "name": "image-url",
+                            "type": "string"
+                        },
+                        {
+                            "name": "image-content",
                             "type": "string"
                         }
                     ],

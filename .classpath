@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="impl/src/main/java"/>
+	<classpathentry kind="src" path="impl/src/test/java"/>
 	<classpathentry kind="lib" path="api/image-manager-api-sources.jar"/>
 	<classpathentry kind="lib" path="api/image-manager-api.jar"/>
 	<classpathentry kind="lib" path="impl/src/main/lib/gson.jar"/>
@@ -10,5 +11,7 @@
 	<classpathentry kind="lib" path="tools/eclipse/lib/macaw-service-client.jar"/>
 	<classpathentry kind="lib" path="tools/eclipse/lib/slf4j-api.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="lib" path="impl/src/main/lib/testng-6.1.1.jar"/>
+	<classpathentry kind="lib" path="impl/src/main/lib/logback-classic-1.2.3.jar"/>
+	<classpathentry kind="output" path="target/classes"/>
 </classpath>

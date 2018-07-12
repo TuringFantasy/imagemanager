@@ -34,9 +34,10 @@ public class ImageManager implements com.cfx.service.api.Service, io.zolontech.i
   }
 
   @Override
-  public String uploadImage(String userCode, String imageUrl) {
+  public String uploadImage(String userCode, String imageUrl, String imageContent) {
 	  Approval approval = DomainEntityInstantiator.getInstance().newInstance(Approval.class);
 	  approval.setImageUrl(imageUrl);
+	  approval.setImageContent(imageContent);
 	  approval.setUser(users.get(userCode));
 	  approval.setStatus(ApprovalStatus.PENDING);
 	  approvals.put(imageUrl, approval);
