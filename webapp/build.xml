@@ -1,4 +1,4 @@
-<project name="image-manager-webapp" basedir="." default="war">
+<project name="imagemanager" basedir="." default="war">
 
     <property name="dist.name" value="${ant.project.name}" />
     <property name="dist.dir" value="${basedir}/dist" />
