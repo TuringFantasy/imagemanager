@@ -57,6 +57,9 @@
 
     <!-- Test source compilation classpath -->
     <path id="test.classpath">
+        <fileset dir="${src.test.lib.dir}">
+            <include name="**/*.jar"/>
+        </fileset>
         <!-- Make the compiled source available to tests -->
         <pathelement path="${target.classes.dir}"/>
         <!-- Use the main compile time libraries for tests too -->
@@ -106,7 +109,7 @@
 
     <taskdef resource="testngtasks">
         <classpath>
-            <pathelement location="${src.test.lib.dir}"/>
+            <pathelement location="${src.test.lib.dir}/testng-6.1.1.jar"/>
         </classpath>
     </taskdef>
 
@@ -116,7 +119,7 @@
         <mkdir dir="${test.reports.dir}"/>
         <testng outputDir="${test.reports.dir}" haltOnFailure="true" verbose="2">
             <classpath>
-                <path refid="test.dependencies"/>
+                <path refid="test.classpath"/>
                 <pathelement location="${target.classes.dir}"/>
                 <pathelement location="${target.test.classes.dir}"/>
             </classpath>
