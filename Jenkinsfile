@@ -15,7 +15,7 @@ pipeline {
         booleanParam(name: 'SKIP_CERT_VERIFICATION', defaultValue: true, description: 'If set to true then any SSL certificate errors will be ignored. Typically, for self-signed certificates this param can be set to true')
         string(name: 'SERVICE_ID', defaultValue:'image-manager', description: 'The service id of the service in blueprint that needs to be provisioned')
 
-        booleanParam(name: 'RUN_PYTHON_TESTS', defaultValue: false, description: 'Run Python Tests Post Provisioning')
+        booleanParam(name: 'RUN_PYTHON_TESTS', defaultValue: true, description: 'Run Python Tests Post Provisioning')
     }
     stages {
         stage('Checkout Source') {
