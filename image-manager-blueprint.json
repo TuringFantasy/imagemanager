@@ -1,0 +1,36 @@
+{
+ "id": "e3e1efdb-f026-58f1-8c79-70d707fc1354", 
+ "name": "Macaw Service Blueprint for Image Manager", 
+ "description": "Macaw Service Blueprint for Image Manager", 
+ "category": "Macaw Services", 
+ "tag": "MicroServices", 
+ "icon": "microservices", 
+ "published": {
+  "date": "2018-07-12T16:59:50.774203", 
+  "organization": "macaw.io", 
+  "user": "macaw"
+ }, 
+ "revision": "1.0", 
+ "services": [
+  {
+   "minQuantity": 0, 
+   "configDescriptors": [], 
+   "volumes": [], 
+   "service-version": "1.0.0", 
+   "defaultQuantity": 1, 
+   "service-name": "image-manager", 
+   "id": "image-manager", 
+   "name": "image-manager-v1.0.0", 
+   "exposePorts": [], 
+   "service-namespace": "io.zolontech.services", 
+   "maxQuantity": 8
+  }
+ ], 
+ "webapps": [], 
+ "dependencies": [], 
+ "deployment": {
+  "order": [
+   "image-manager"
+  ]
+ }
+}
