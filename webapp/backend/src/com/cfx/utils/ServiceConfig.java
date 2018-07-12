@@ -67,15 +67,15 @@ public class ServiceConfig {
     }
     
     public String getServiceName() {
-        return getProperty("image.manager.service.name", "");
+        return getProperty("image.manager.service.name", "image-manager");
     }
     
     public String getServiceNamespace() {
-        return getProperty("image.manager.service.name.space", "");
+        return getProperty("image.manager.service.name.space", "io.zolontech.services");
     }
     
     public String getServiceVersion() {
-        return getProperty("image.manager.service.version", "");
+        return getProperty("image.manager.service.version", "*");
     }
 
     public void start()  {

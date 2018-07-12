@@ -27,6 +27,7 @@ import com.cfx.utils.JSONUtils;
 import com.cfx.utils.ServerConnector;
 import com.cfx.utils.ServiceConfig;
 import com.cfx.utils.ServiceExecutionException;
+import com.google.api.client.json.Json;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
@@ -71,7 +72,7 @@ public class ServicesAPI {
             logger.info(paramsStr);
             
             try {
-                String response = ServerConnector.getInstance().execute(url, HTTPMethods.POST, paramsStr, false, token);
+                String response = ServerConnector.getInstance().execute(url, HTTPMethods.POST, paramsStr, false, getToken());
                 JsonObject responseObj = new JsonObject();
                 JsonElement o = JSONUtils.getJsonElementByString(String.valueOf(response));
                 responseObj.add("serviceResult", o);
@@ -107,7 +108,9 @@ public class ServicesAPI {
 		JsonObject loginDetails = new JsonObject();
 		loginDetails.addProperty("user", user);
 		loginDetails.addProperty("password", password);
-		token = ServerConnector.getInstance().gatewayLogin(loginDetails);
+		String response = ServerConnector.getInstance().gatewayLogin(loginDetails);
+		JsonObject loginResponse = JSONUtils.getJsonObjectByString(response);
+		token = loginResponse.get("apiGatewaySessionId").getAsString();
 		return token;
 	}
 	
@@ -184,7 +187,7 @@ public class ServicesAPI {
             
             String paramsStr = params.toString();
 
-            String response = ServerConnector.getInstance().execute(url, HTTPMethods.POST, paramsStr, false, this.token);
+            String response = ServerConnector.getInstance().execute(url, HTTPMethods.POST, paramsStr, false, getToken());
             //JsonObject responseObj = new JsonObject();
             //JsonElement o = JSONUtils.getJsonElementByString(String.valueOf(response));
             if (response != null) {
