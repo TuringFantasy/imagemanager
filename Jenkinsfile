@@ -7,7 +7,7 @@ pipeline {
         pollSCM('* * * * *')
     }
     parameters {
-        booleanParam(name: 'RUN_TESTS', defaultValue: true, description: 'Should the tests be run?')
+        booleanParam(name: 'RUN_TESTS', defaultValue: false, description: 'Should the tests be run?')
         booleanParam(name: 'PUBLISH_DOCKER_IMAGE', defaultValue: true, description: 'Should a docker image with a new tag be created and published to a docker repo?')
         booleanParam(name: 'PROVISION_SERVICE', defaultValue: true, description: 'Should the service be provisioned to a Macaw platform runtime?')
         string(name: 'SERVICE_BLUEPRINT_ID', defaultValue:'e3e1efdb-f026-58f1-8c79-70d707fc1354', description: 'The blueprint id to use for provisioning the service. This will be used if service provisioning is enabled')
