@@ -51,6 +51,7 @@ public class ServicesAPI {
 	
 	private final static Logger logger = LoggerFactory.getLogger(ServicesAPI.class);
 	
+	private String token = null;
 	@POST
     @Path("/api")
     public Response browseApi(String serviceRequestDescriptor) throws ServiceExecutionException {
@@ -65,7 +66,7 @@ public class ServicesAPI {
             String methodName = serviceRequestJson.get("methodName").getAsString();
             String paramsStr = serviceRequestJson.get("params").toString();
             String url = "/service/" + serviceNamespace + "/" + serviceName + "/" + serviceVersion + "/" + methodName;
-            String token = serviceRequestJson.get("token").getAsString();
+            //String token = serviceRequestJson.get("token").getAsString();
             
             logger.info(paramsStr);
             
@@ -98,12 +99,16 @@ public class ServicesAPI {
 		//TODO: as there is no login process right now, we use the default credentials to
 		//get access to api gateway
 		
+		if (token != null) {
+			return token;
+		}
 		String user = ServiceConfig.getInstance().getUserid();
 		String password = ServiceConfig.getInstance().getPassword();
 		JsonObject loginDetails = new JsonObject();
 		loginDetails.addProperty("user", user);
 		loginDetails.addProperty("password", password);
-		return ServerConnector.getInstance().gatewayLogin(loginDetails);
+		token = ServerConnector.getInstance().gatewayLogin(loginDetails);
+		return token;
 	}
 	
 	@POST
@@ -179,11 +184,11 @@ public class ServicesAPI {
             
             String paramsStr = params.toString();
 
-            String response = ServerConnector.getInstance().execute(url, HTTPMethods.POST, paramsStr, false, token);
+            String response = ServerConnector.getInstance().execute(url, HTTPMethods.POST, paramsStr, false, this.token);
             //JsonObject responseObj = new JsonObject();
             //JsonElement o = JSONUtils.getJsonElementByString(String.valueOf(response));
             if (response != null) {
-            	//uploadImage api call was successful
+            	//uploadImage api call was successfultoken
             }
             
             JsonObject jsonResponse = new JsonObject();

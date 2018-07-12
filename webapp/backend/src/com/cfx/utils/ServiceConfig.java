@@ -1,5 +1,7 @@
 package com.cfx.utils;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -77,21 +79,51 @@ public class ServiceConfig {
     }
 
     public void start()  {
-        
+        this.macawProperties = getMacawProperties();
     }
     
     public void stop() {
     }
     
-    public Properties getMacawProperties(InputStream is) {
+    public Properties getMacawProperties() {
         if (macawProperties == null || macawProperties.isEmpty()) {
                 try {
-                    macawProperties = loadMacawProperties(is);
+                    macawProperties = loadMacawProperties();
                 } catch (Exception e) {
                         throw new RuntimeException("Failed to load macaw properties", e);
                 }
         }
         return macawProperties;
+    }
+    
+    
+    public Properties loadMacawProperties() throws Exception {
+        final String userHome = System.getProperty("user.home");
+        final File macawConfFileDefault = new File(userHome, "macaw.conf");
+
+        String preferredPath = System.getenv("MACAW_CONF_DIR");
+        if (preferredPath == null || preferredPath.equals(""))
+        {
+                preferredPath = "/opt/cfx-config/common";
+        }
+        final File macawConfFilePreferred = new File(preferredPath, "macaw.conf");
+        File macawConfFile = macawConfFilePreferred;
+
+        if (!macawConfFile.exists() || !macawConfFile.isFile()) {
+                macawConfFile = macawConfFileDefault;
+        }
+
+        if (macawConfFile.exists() && macawConfFile.isFile()) {
+                logger.info("Loading macaw.conf from " + macawConfFile.getAbsolutePath());
+                // load the properties
+                try (final FileInputStream fileInputStream = new FileInputStream(
+                                macawConfFile)) {
+                        final Properties macawConfProperties = new Properties();
+                        macawConfProperties.load(fileInputStream);
+                        return macawConfProperties;
+                }
+        }
+        return null;
     }
     
     public Properties loadMacawProperties(InputStream is) {

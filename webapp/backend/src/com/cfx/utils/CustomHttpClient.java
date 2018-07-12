@@ -73,9 +73,9 @@ public class CustomHttpClient {
     	//this can be fixed to read from properties file later
     	//HARD CODE
         //String host = "10.95.122.144";
-        String host = "ec2-35-168-116-172.compute-1.amazonaws.com";
-        String port = "8080";
-        String protocol = "http";
+        String host = ServiceConfig.getInstance().getProperty("api.gateway.host", "localhost");
+        String port = "443";
+        String protocol = "https";
 
         return prepareCustomHttpClient(host, port, protocol, configProperties);
     }
