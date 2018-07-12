@@ -13,7 +13,9 @@ pipeline {
         string(name: 'SERVICE_BLUEPRINT_ID', defaultValue:'e3e1efdb-f026-58f1-8c79-70d707fc1354', description: 'The blueprint id to use for provisioning the service. This will be used if service provisioning is enabled')
         booleanParam(name: 'ROLLING_UPDATE', defaultValue: true, description: 'Will this be a rolling update or a new cluster needs to be provisioned')
         booleanParam(name: 'SKIP_CERT_VERIFICATION', defaultValue: true, description: 'If set to true then any SSL certificate errors will be ignored. Typically, for self-signed certificates this param can be set to true')
-        string(name: 'SERVICE_ID', defaultValue:'', description: 'The service id of the service in blueprint that needs to be provisioned')
+        string(name: 'SERVICE_ID', defaultValue:'image-manager', description: 'The service id of the service in blueprint that needs to be provisioned')
+
+        booleanParam(name: 'RUN_PYTHON_TESTS', defaultValue: true, description: 'Run Python Tests Post Provisioning')
     }
     stages {
         stage('Checkout Source') {
@@ -85,6 +87,19 @@ pipeline {
                         provisionCommand = "${provisionCommand} --skip-cert-verification"
                     }
                     sh "export PYTHONIOENCODING=UTF-8; ${provisionCommand}"
+                }
+            }
+        }
+        stage('Post Provisioning Tests') {
+            when {
+                expression {
+                    return params.RUN_PYTHON_TESTS
+                }
+            }
+            steps {
+                dir('impl') {
+                    sh "sleep 60s"
+                    sh "ant python-test"
                 }
             }
         }
