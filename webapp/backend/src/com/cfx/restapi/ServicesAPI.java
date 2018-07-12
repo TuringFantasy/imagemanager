@@ -27,11 +27,10 @@ import com.cfx.utils.JSONUtils;
 import com.cfx.utils.ServerConnector;
 import com.cfx.utils.ServiceConfig;
 import com.cfx.utils.ServiceExecutionException;
-import com.google.api.client.json.Json;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import com.sun.jersey.core.header.FormDataContentDisposition;
 import com.sun.jersey.multipart.FormDataParam;
 import com.sun.research.ws.wadl.HTTPMethods;
@@ -100,9 +99,11 @@ public class ServicesAPI {
 		//TODO: as there is no login process right now, we use the default credentials to
 		//get access to api gateway
 		
+		/*
 		if (token != null) {
 			return token;
 		}
+		*/
 		String user = ServiceConfig.getInstance().getUserid();
 		String password = ServiceConfig.getInstance().getPassword();
 		JsonObject loginDetails = new JsonObject();
@@ -154,10 +155,6 @@ public class ServicesAPI {
 
             minioClient.putObject("imagemanager", fileName, targetFile.getAbsolutePath());
 
-            //logger.info("File uploaded to minio");
-            //String output = "File uploaded to : " + uploadedFileLocation;
-            
-            //now call image-manager-api
             String serviceName = ServiceConfig.getInstance().getServiceName();
             String serviceNamespace = ServiceConfig.getInstance().getServiceNamespace();
             String serviceVersion = ServiceConfig.getInstance().getServiceVersion();
@@ -168,21 +165,10 @@ public class ServicesAPI {
             JsonObject params = new JsonObject();
             JsonArray args = new JsonArray();
             
-            JsonObject firstArg = new JsonObject();
-            firstArg.addProperty("createdDate", 0);
-            firstArg.addProperty("customerId", customer);
-            firstArg.addProperty("name", fileName);
-            firstArg.addProperty("url", "minio://imagemanager/" + fileName);
-            firstArg.addProperty("description", code);
-            firstArg.add("id", JsonNull.INSTANCE);
-            firstArg.add("object", JsonNull.INSTANCE);
-            
-            JsonObject secondArg = new JsonObject();
-            secondArg.addProperty("url", "minio://imagemanager/" + fileName);
-            
-            args.add(firstArg);
-            args.add(secondArg);
-            
+            args.add(new JsonPrimitive(code));
+            args.add(new JsonPrimitive("minio://imagemanager/" + fileName));
+            args.add(new JsonPrimitive(""));
+                        
             params.add("params", args);
             
             String paramsStr = params.toString();
