@@ -55,6 +55,7 @@ public class ServicesAPI {
 	@POST
     @Path("/api")
     public Response browseApi(String serviceRequestDescriptor) throws ServiceExecutionException {
+            logger.info(serviceRequestDescriptor);
 		JsonObject serviceRequestDescriptorJSON = (JsonObject) JSONUtils.getJsonElementByString(serviceRequestDescriptor);
         if(serviceRequestDescriptorJSON.get("serviceRequestDescriptor") != null) {
             JsonObject serviceRequestJson = (JsonObject)serviceRequestDescriptorJSON.get("serviceRequestDescriptor");
@@ -64,11 +65,12 @@ public class ServicesAPI {
             String serviceVersion = ServiceConfig.getInstance().getServiceVersion();
 
             String methodName = serviceRequestJson.get("methodName").getAsString();
-            String paramsStr = serviceRequestJson.get("params").toString();
+            String paramsStr = String.format(" { %s : %s } ", "params", serviceRequestJson.get("params").toString());
             String url = "/service/" + serviceNamespace + "/" + serviceName + "/" + serviceVersion + "/" + methodName;
             //String token = serviceRequestJson.get("token").getAsString();
             
-            logger.info(paramsStr);
+            logger.info("METHOD: " + methodName);
+            logger.info("PARAMS: " + paramsStr);
             
             try {
                 String response = ServerConnector.getInstance().execute(url, HTTPMethods.POST, paramsStr, false, getToken());
