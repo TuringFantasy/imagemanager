@@ -7,83 +7,105 @@ import java.lang.Override;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import java.util.List;
 
-import io.zolontech.imagemanager.Approval;
+import io.zolontech.imagemanager.ImageRecord;
 import io.zolontech.imagemanager.ApprovalStatus;
 import io.zolontech.imagemanager.DomainEntityInstantiator;
-import io.zolontech.imagemanager.Image;
 import io.zolontech.imagemanager.User;
 
 public class ImageManager implements com.cfx.service.api.Service, io.zolontech.imagemanager.ImageManager {
 
 	private Map<String, io.zolontech.imagemanager.User> users = new HashMap<>();
 
-	private Map<String, io.zolontech.imagemanager.Approval> approvals = new HashMap<>();
+	private Map<String, io.zolontech.imagemanager.ImageRecord> records = new HashMap<>();
+
+	@Override
+	public void initialize(com.cfx.service.api.config.Configuration config)
+			throws com.cfx.service.api.ServiceException {
+	}
+
+	@Override
+	public void start(com.cfx.service.api.StartContext startContext) throws com.cfx.service.api.ServiceException {
+	}
+
+	@Override
+	public void stop(com.cfx.service.api.StopContext stopContext) throws com.cfx.service.api.ServiceException {
+	}
+
+	@Override
+	public String uploadImage(String userCode, String imageName) {
+		assertNotEmpty(userCode, "Invalid user code specified to upload image");
+		assertNotEmpty(imageName, "Invalid image name specified to upload image");
+		assertNotNull(users.get(userCode), "User does not exist with the specified code");		
+		ImageRecord record = DomainEntityInstantiator.getInstance().newInstance(ImageRecord.class);
+		record.setId(UUID.randomUUID().toString());
+		record.setImageName(imageName);
+		record.setUser(users.get(userCode));
+		record.setStatus(ApprovalStatus.PENDING);
+		record.setUpdatedAt(System.currentTimeMillis());
+		records.put(record.getId(), record);
+		return record.getId();
+	}
+
+	@Override
+	public String addUser(io.zolontech.imagemanager.User user) {
+		assertNotNull(user, "Invalid input supplied for adding user");
+		assertNotEmpty(user.getCode(), "User does not have a valid code");
+		if (users.get(user.getCode()) != null) {
+			throw new RuntimeException("User already exists with the specified code");
+		}
+		users.put(user.getCode(), user);
+		return user.getCode();
+	}
+
+	@Override
+	public List<ImageRecord> getImageRecords(String userCode) {
+		assertNotEmpty(userCode, "Invalid user code specified");
+		List<ImageRecord> results = new ArrayList<>();
+		for (ImageRecord record : records.values()) {
+			if (record.getUser().getCode().equals(userCode)) {
+				results.add(record);
+			}
+		}
+
+		return results;
+	}
+
+	@Override
+	public ImageRecord updateStatus(String id, ApprovalStatus status) {
+		assertNotEmpty(id, "Invalid image record id specified to update approval status");
+		assertNotNull(status, "Invalid approval status specified");
+		ImageRecord record = getImageRecord(id);
+		assertNotNull(record, "Image record does not exist with the specified ID + " + id);
+		record.setStatus(status);
+		record.setUpdatedAt(System.currentTimeMillis());
+		return record;
+	}
+
+	@Override
+	public List<User> getUsers() {
+		List<User> userList = new ArrayList<>();
+		userList.addAll(this.users.values());
+		return userList;
+	}
+
+	@Override
+	public ImageRecord getImageRecord(String id) {
+		assertNotEmpty(id, "Invalid image record id specified");
+		return records.get(id);
+	}
 	
-  @Override
-  public void initialize(com.cfx.service.api.config.Configuration config) throws com.cfx.service.api.ServiceException {
-  }
+	private void assertNotEmpty(String value, String message) {
+		if (value == null || value.trim().isEmpty()) {
+			throw new RuntimeException(message);
+		}
+	}
 
-  @Override
-  public void start(com.cfx.service.api.StartContext startContext) throws com.cfx.service.api.ServiceException {
-  }
-
-  @Override
-  public void stop(com.cfx.service.api.StopContext stopContext) throws com.cfx.service.api.ServiceException {
-  }
-
-  @Override
-  public String uploadImage(String userCode, String imageUrl, String imageContent) {
-	  Approval approval = DomainEntityInstantiator.getInstance().newInstance(Approval.class);
-	  approval.setImageUrl(imageUrl);
-	  approval.setImageContent(imageContent);
-	  approval.setUser(users.get(userCode));
-	  approval.setStatus(ApprovalStatus.PENDING);
-	  approvals.put(imageUrl, approval);
-    return imageUrl;
-  }
-
-  @Override
-  public String addUser(io.zolontech.imagemanager.User user) {
-	  users.put(user.getUserCode(), user);
-    return user.getUserCode();
-  }
-
-  @Override
-  public io.zolontech.imagemanager.Approval updateApproval(io.zolontech.imagemanager.Approval approval) {
-	  approvals.put(approval.getImageUrl(), approval);
-    return approval;
-  }
-
-  @Override
-  public java.util.List<io.zolontech.imagemanager.Approval> getApprovals(io.zolontech.imagemanager.ApprovalStatus status) {
-	  List<Approval> tmpApprovals = new ArrayList<>();
-	  for (Approval approval : approvals.values()) {
-		  if (ApprovalStatus.ALL.name().equals(status.name()) || approval.getStatus().name().equals(status.name())) {
-			  tmpApprovals.add(approval);
-		  }
-	  }
-	  
-    return tmpApprovals;
-  }
-
-@Override
-public List<Approval> getImages(String userCode) {
-	  List<Approval> tmpApprovals = new ArrayList<>();
-	  for (Approval approval : approvals.values()) {
-		  if (approval.getUser().getUserCode().equals(userCode)) {
-			  tmpApprovals.add(approval);
-		  }
-	  }
-	  
-  return tmpApprovals;
-}
-
-@Override
-public List<User> getUsers() {
-	List<User> userList = new ArrayList<>();
-	userList.addAll(this.users.values());
-	return userList;
-}
+	private void assertNotNull(Object value, String message) {
+		if (value == null) {
+			throw new RuntimeException(message);
+		}
+	}
 }

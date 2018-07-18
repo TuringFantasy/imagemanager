@@ -2,6 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="impl/src/main/java"/>
 	<classpathentry kind="src" path="impl/src/test/java"/>
+	<classpathentry kind="src" path="webapp/backend/src"/>
 	<classpathentry kind="lib" path="api/image-manager-api-sources.jar"/>
 	<classpathentry kind="lib" path="api/image-manager-api.jar"/>
 	<classpathentry kind="lib" path="impl/src/main/lib/gson.jar"/>
@@ -13,5 +14,52 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="impl/src/main/lib/testng-6.1.1.jar"/>
 	<classpathentry kind="lib" path="impl/src/main/lib/logback-classic-1.2.3.jar"/>
+	<classpathentry kind="lib" path="webapp/backend/lib/annotations-3.0.1.jar"/>
+	<classpathentry kind="lib" path="webapp/backend/lib/asm-3.1.jar"/>
+	<classpathentry kind="lib" path="webapp/backend/lib/commons-codec-1.9.jar"/>
+	<classpathentry kind="lib" path="webapp/backend/lib/commons-io-2.4.jar"/>
+	<classpathentry kind="lib" path="webapp/backend/lib/commons-lang-2.4.jar"/>
+	<classpathentry kind="lib" path="webapp/backend/lib/commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="webapp/backend/lib/google-http-client-1.20.0.jar"/>
+	<classpathentry kind="lib" path="webapp/backend/lib/google-http-client-xml-1.20.0.jar"/>
+	<classpathentry kind="lib" path="webapp/backend/lib/gson-2.3.1.jar"/>
+	<classpathentry kind="lib" path="webapp/backend/lib/guava-18.0.jar"/>
+	<classpathentry kind="lib" path="webapp/backend/lib/httpclient-4.5.2.jar"/>
+	<classpathentry kind="lib" path="webapp/backend/lib/httpcore-4.4.4.jar"/>
+	<classpathentry kind="lib" path="webapp/backend/lib/jackson-annotations-2.9.0.pr3.jar"/>
+	<classpathentry kind="lib" path="webapp/backend/lib/jackson-core-2.9.0.pr3.jar"/>
+	<classpathentry kind="lib" path="webapp/backend/lib/jackson-core-asl-1.9.2.jar"/>
+	<classpathentry kind="lib" path="webapp/backend/lib/jackson-databind-2.9.0.pr3.jar"/>
+	<classpathentry kind="lib" path="webapp/backend/lib/jackson-dataformat-yaml-2.4.2.jar"/>
+	<classpathentry kind="lib" path="webapp/backend/lib/jackson-datatype-joda-2.4.2.jar"/>
+	<classpathentry kind="lib" path="webapp/backend/lib/jackson-jaxrs-1.9.2.jar"/>
+	<classpathentry kind="lib" path="webapp/backend/lib/jackson-mapper-asl-1.9.2.jar"/>
+	<classpathentry kind="lib" path="webapp/backend/lib/jackson-xc-1.9.2.jar"/>
+	<classpathentry kind="lib" path="webapp/backend/lib/jaxb-api-2.2.12.jar"/>
+	<classpathentry kind="lib" path="webapp/backend/lib/jaxb-impl-2.2.3-1.jar"/>
+	<classpathentry kind="lib" path="webapp/backend/lib/jboss-servlet-api_3.0_spec-1.0.2.Final.jar"/>
+	<classpathentry kind="lib" path="webapp/backend/lib/jcip-annotations-1.0.jar"/>
+	<classpathentry kind="lib" path="webapp/backend/lib/jersey-client-1.17.jar"/>
+	<classpathentry kind="lib" path="webapp/backend/lib/jersey-core-1.17.jar"/>
+	<classpathentry kind="lib" path="webapp/backend/lib/jersey-json-1.17.jar"/>
+	<classpathentry kind="lib" path="webapp/backend/lib/jersey-multipart-1.17.jar"/>
+	<classpathentry kind="lib" path="webapp/backend/lib/jersey-server-1.17.jar"/>
+	<classpathentry kind="lib" path="webapp/backend/lib/jersey-servlet-1.17.jar"/>
+	<classpathentry kind="lib" path="webapp/backend/lib/jettison-1.1.jar"/>
+	<classpathentry kind="lib" path="webapp/backend/lib/joda-time-2.7.jar"/>
+	<classpathentry kind="lib" path="webapp/backend/lib/json-20160810.jar"/>
+	<classpathentry kind="lib" path="webapp/backend/lib/jsr305-3.0.1.jar"/>
+	<classpathentry kind="lib" path="webapp/backend/lib/log4j-1.2.17.jar"/>
+	<classpathentry kind="lib" path="webapp/backend/lib/mimepull-1.9.3.jar"/>
+	<classpathentry kind="lib" path="webapp/backend/lib/minio-3.0.10.jar"/>
+	<classpathentry kind="lib" path="webapp/backend/lib/okhttp-3.9.1.jar"/>
+	<classpathentry kind="lib" path="webapp/backend/lib/okio-1.13.0.jar"/>
+	<classpathentry kind="lib" path="webapp/backend/lib/slf4j-api-1.7.12.jar"/>
+	<classpathentry kind="lib" path="webapp/backend/lib/slf4j-log4j12-1.7.12.jar"/>
+	<classpathentry kind="lib" path="webapp/backend/lib/swagger-annotations-1.5.1-M1.jar"/>
+	<classpathentry kind="lib" path="webapp/backend/lib/swagger-core-1.5.1-M1.jar"/>
+	<classpathentry kind="lib" path="webapp/backend/lib/swagger-models-1.5.1-M1.jar"/>
+	<classpathentry kind="lib" path="webapp/backend/lib/swagger-parser-1.0.0.jar"/>
+	<classpathentry kind="lib" path="webapp/backend/lib/xpp3-1.1.4c.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

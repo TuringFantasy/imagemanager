@@ -5,43 +5,10 @@
         "version": "1.0.0",
         "description": "Image Manager Service",
         "domain-entities": {
-            "image": {
-                "properties": {
-                    "id": {
-                        "type": "string",
-                        "description": "Unique ID of the image"
-                    },
-
-                    "user-code": {
-                        "type": "string",
-                        "description": "Unique ID of the user associated with the image"
-                    },
-
-                    "description": {
-                        "type": "string",
-                        "description": "Description about the management features"
-                    },
-
-                    "url": {
-                        "type": "string",
-                        "description": "URL of the image"
-                    },
-
-                    "content": {
-                        "type": "string",
-                        "description": "Byte 64 encoded representation of the image"
-                    },
-
-                    "createdAt": {
-                        "type": "int64",
-                        "description": "The time in UTC milliseconds at which the image was created"
-                    }
-                }
-            },
 
             "user": {
                 "properties": {
-                    "user-code": {
+                    "code": {
                         "type": "string",
                         "description": "Unique ID of the user"
                     },
@@ -64,35 +31,25 @@
                     "email-id": {
                         "type": "string",
                         "description": "Email ID of the user"
-                    },
-
-                    "createdAt": {
-                        "type": "int64",
-                        "description": "The time in UTC milliseconds at which the image was created"
                     }
                 }
             },
 
-            "approval": {
+            "image-record": {
                 "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique ID of the image record"
+                    },
+
                     "user": {
                         "type": "user",
                         "description": "User"
                     },
 
-                    "image-id": {
+                    "image-name": {
                         "type": "string",
-                        "description": "Unique ID of the image"
-                    },
-
-                    "image-url": {
-                        "type": "string",
-                        "description": "The URL of the image"
-                    },
-
-                    "image-content": {
-                        "type": "string",
-                        "description": "Byte 64 encoded representation of the image"
+                        "description": "Image file name"
                     },
 
                     "status": {
@@ -100,7 +57,7 @@
                         "description": "Approval status"
                     },
 
-                    "reason": {
+                    "status-reason": {
                         "type": "string",
                         "description": "Reason for approval/rejection"
                     },
@@ -134,11 +91,7 @@
                             "type": "string"
                         },
                         {
-                            "name": "image-url",
-                            "type": "string"
-                        },
-                        {
-                            "name": "image-content",
+                            "name": "image-name",
                             "type": "string"
                         }
                     ],
@@ -160,35 +113,38 @@
                     }
                 },
                 {
-                    "name" : "updateApproval",
-                    "description" : "Update approval",
+                    "name" : "getImageRecord",
+                    "description" : "Returns a image record with the specified ID",
                     "inputs": [
                         {
-                            "name": "approval",
-                            "type": "approval"
+                            "name": "id",
+                            "type": "string"
                         }
                     ],
                     "output" : {
-                        "type" : "approval"
+                        "type" : "image-record"
                     }
                 },
                 {
-                    "name" : "getApprovals",
-                    "description" : "Returns the list of approvals",
+                    "name" : "updateStatus",
+                    "description" : "Update image approval status",
                     "inputs": [
+                        {
+                            "name": "id",
+                            "type": "string"
+                        },
                         {
                             "name": "status",
                             "type": "approval-status"
                         }
                     ],
                     "output" : {
-                        "type" : "list",
-                        "item" : "approval"
+                        "type" : "image-record"
                     }
                 },
                 {
-                    "name" : "getImages",
-                    "description" : "Returns the list of images matching a code",
+                    "name" : "getImageRecords",
+                    "description" : "Returns the list of images matching a user code",
                     "inputs": [
                         {
                             "name": "user-code",
@@ -197,7 +153,7 @@
                     ],
                     "output" : {
                         "type" : "list",
-                        "item" : "approval"
+                        "item" : "image-record"
                     }
                 },
                 {

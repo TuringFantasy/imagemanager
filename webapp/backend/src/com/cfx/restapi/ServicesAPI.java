@@ -122,8 +122,6 @@ public class ServicesAPI {
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	public Response uploadFile(@FormDataParam("file") InputStream uploadedInputStream, 
 			@FormDataParam("file") FormDataContentDisposition fileDetail,
-			@FormDataParam("token") String token,
-			@FormDataParam("customer") String customer,
 			@FormDataParam("code") String code)  throws Exception{
 
         String fileName = fileDetail.getFileName();
@@ -168,8 +166,7 @@ public class ServicesAPI {
             JsonArray args = new JsonArray();
             
             args.add(new JsonPrimitive(code));
-            args.add(new JsonPrimitive("minio://imagemanager/" + fileName));
-            args.add(new JsonPrimitive(""));
+            args.add(new JsonPrimitive(fileName));
                         
             params.add("params", args);
             

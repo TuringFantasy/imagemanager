@@ -31,11 +31,11 @@ public class ServiceConfig {
     }
     
     public String getUserid() {
-        return getProperty("io.macaw.demo.user", "admin@macaw.io");
+        return getProperty("io.macaw.rest.user", "admin@macaw.io");
     }
 
     public String getPassword() {
-    	return getProperty("io.macaw.demo.password", "abcd123$");
+    	return getProperty("io.macaw.rest.password", "abcd123$");
     }
     
     public String getMinioServer() {
