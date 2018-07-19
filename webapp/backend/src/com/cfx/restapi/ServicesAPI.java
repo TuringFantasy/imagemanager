@@ -117,6 +117,58 @@ public class ServicesAPI {
 		return token;
 	}
 	
+	@GET
+	@Path("/imageRecords")
+	public Response getImageRecords(@QueryParam("userCode") String userCode) throws CustomHttpClientException, IOException {
+        String methodName = "getImageRecords";
+        String paramsStr = String.format(" { %s : [ \"%s\" ] } ", "params", userCode);
+        
+        return invokeAPI(methodName, paramsStr);
+	}
+	
+	@GET
+	@Path("/users")
+	public Response getUsers() throws CustomHttpClientException, IOException {
+        String methodName = "getUsers";
+        String paramsStr = " { params : [ ] } ";
+        
+        return invokeAPI(methodName, paramsStr);
+	}
+
+	private Response invokeAPI(String methodName, String paramsStr) {
+		String serviceName = ServiceConfig.getInstance().getServiceName();
+        String serviceNamespace = ServiceConfig.getInstance().getServiceNamespace();
+        String serviceVersion = ServiceConfig.getInstance().getServiceVersion();
+        String url = "/service/" + serviceNamespace + "/" + serviceName + "/" + serviceVersion + "/" + methodName;
+        
+        try {
+            String response = ServerConnector.getInstance().execute(url, HTTPMethods.POST, paramsStr, false, getToken());
+            JsonElement o = JSONUtils.getJsonElementByString(String.valueOf(response));
+            return Response.ok(JSONUtils.jsonize(o)).build();
+        } catch (ServiceExecutionException e) {
+            JsonObject responseObj = new JsonObject();
+            JsonElement o = JSONUtils.getJsonElementByString(String.valueOf(e.getMessage()));
+            responseObj.add("serviceError", o);
+            return Response.ok(JSONUtils.jsonize(responseObj)).build();
+        } catch(Exception e){
+            String errorMessage = "serviceError : " + e.getMessage();
+            JsonObject responseObj = new JsonObject();
+            JsonElement o = JSONUtils.getJsonElementByString(String.valueOf(errorMessage));
+            responseObj.add("serviceError", o);
+            return Response.ok(JSONUtils.jsonize(responseObj)).build();
+        }
+	}
+	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/updateStatus")
+	public Response updateStatus(@QueryParam("id") String id, @QueryParam("status") String status) throws CustomHttpClientException, IOException {
+        String methodName = "updateStatus";
+        String paramsStr = String.format(" { %s : [ \"%s\", \"%s\" ] } ", "params", id, status);
+        
+        return invokeAPI(methodName, paramsStr);
+	}
+	
 	@POST
 	@Path("/upload")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
